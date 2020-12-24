@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     //GET /products/
-    @GetMapping(path = "/products")
+    @GetMapping(path = "/products/")
     public @ResponseBody
     Iterable<Product> getAll() {
         return productRepository.findAll();
