@@ -2,7 +2,6 @@ package dsbd2020.project.productmanager.controller;
 
 import dsbd2020.project.productmanager.data.CategoriesRepository;
 import dsbd2020.project.productmanager.data.ProductRepository;
-import dsbd2020.project.productmanager.entities.Categories;
 import dsbd2020.project.productmanager.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ public class ProductController {
     public @ResponseBody
     String addProduct(@RequestBody Product product) {
 
-        if(categoriesRepository.existsById( product.getCategories().getId())==true)
+        if(categoriesRepository.existsById( product.getCategory().getId())==true)
         {
             productRepository.save(product);
             return  "Done";
@@ -39,7 +38,7 @@ public class ProductController {
         if (productToUpdate.isPresent()) {
             Product p = productToUpdate.get();
             p.setBrand(productDto.getBrand());
-            p.setCategories(productDto.getCategories());
+            p.setCategory(productDto.getCategory());
             p.setDescription(productDto.getDescription());
             p.setPrice(productDto.getPrice());
             p.setModel(productDto.getModel());
