@@ -21,7 +21,19 @@ public class CategoriesController {
 
     @PutMapping(path = "/categories/{id}")
     public @ResponseBody Categories updateCategory(@PathVariable Integer id, @RequestBody Categories categoryDto){
-        Optional<Categories> category = categoriesRepository.findById(id);
-        if()
+        Optional<Categories> categoryToUpdate = categoriesRepository.findById(id);
+        if(categoryToUpdate.isPresent())
+            categoryToUpdate.get().setName(categoryDto.getName());
+        return categoriesRepository.save(categoryToUpdate.get());
+    }
+
+    @GetMapping(path = "/categories/{id}")
+    public @ResponseBody Optional<Categories> getCategory(@PathVariable Integer id){
+        return categoriesRepository.findById(id);
+    }
+
+    @GetMapping(path = "/categories/")
+    public @ResponseBody Iterable<Categories> getAllCategories(){
+        return categoriesRepository.findAll(); //temporaneo
     }
 }
