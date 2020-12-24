@@ -2,9 +2,9 @@ package dsbd2020.project.productmanager.entities;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "products")
@@ -13,8 +13,8 @@ public class Product {
     @Id
     private Integer id;
 
-    @ManyToOne
-    private Categories categories;
+    @DBRef
+    private Categories category;
 
     @NotNull
     private String brand;
@@ -48,12 +48,12 @@ public class Product {
         return this;
     }
 
-    public Categories getCategories() {
-        return categories;
+    public Categories getCategory() {
+        return category;
     }
 
-    public Product setCategories(Categories categories) {
-        this.categories = categories;
+    public Product setCategory(Categories category) {
+        this.category = category;
         return this;
     }
 
