@@ -1,0 +1,41 @@
+version: '3.8'
+
+x-mongo-secrets: &mongo-credentials
+  MONGO_USER: &mongo-user root
+  MONGO_PASS: &mongo-pass toor
+  MONGO_AUTH_DB: admin
+  MONGO_HOST: mongo
+  MONGO_PORT: 27017
+  MONGO_DB_NAME: bookdb
+
+
+
+services:
+  mongo:
+    restart: always
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: *mongo-user
+      MONGO_INITDB_ROOT_PASSWORD: *mongo-pass
+    ports:
+      - 27017:27017
+    volumes:
+      - mymongodb:/data/db
+
+
+
+  productmanager:
+    build:
+      context: . #ecommmicroservices
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    depends_on:
+      - mongo
+    restart: always
+    environment:
+      <<: *mongo-credentials
+
+
+volumes:
+  mymongodb:
