@@ -8,7 +8,6 @@ public class Categories {
 
     @Id
     private Integer id;
-
     private String name;
 
     public Integer getId() {
