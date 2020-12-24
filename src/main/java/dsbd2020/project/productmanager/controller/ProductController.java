@@ -23,7 +23,7 @@ public class ProductController {
     public @ResponseBody
     String addProduct(@RequestBody Product product) {
 
-        if(categoriesRepository.existsById( product.getCategory().getId())==true)
+        if(categoriesRepository.existsById(product.getCategory().getId())==true)
         {
             productRepository.save(product);
             return  "Done";

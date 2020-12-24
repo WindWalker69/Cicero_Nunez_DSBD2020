@@ -4,7 +4,6 @@ package dsbd2020.project.productmanager.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +12,6 @@ public class Product {
 
     @Id
     private Integer id;
-
 
     @DBRef
     private Categories category;
@@ -96,5 +94,4 @@ public class Product {
         this.quantity = quantity;
         return this;
     }
-
 }
