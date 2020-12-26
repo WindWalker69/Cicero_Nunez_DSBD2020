@@ -32,7 +32,7 @@ public class CategoriesController {
         return categoriesRepository.findById(id);
     }
 
-    @GetMapping(path = "/categories/")
+    @GetMapping(path = "/categories")
     public @ResponseBody Iterable<Categories> getAllCategories(){
         return categoriesRepository.findAll(); //temporaneo
     }

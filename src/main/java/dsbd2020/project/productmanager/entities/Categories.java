@@ -3,12 +3,16 @@ package dsbd2020.project.productmanager.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "Categories")
 public class Categories {
 
     @Id
     private Integer id;
     private String name;
+
+
 
     public Integer getId() {
         return id;

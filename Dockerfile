@@ -3,8 +3,5 @@ WORKDIR /app
 COPY . .
 RUN mvn package
 
-
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD  [ "java -jar target/productmanager-0.0.1-SNAPSHOT.jar" ]
-
-
