@@ -30,6 +30,17 @@ public class Product {
     @NotNull
     private Integer quantity;
 
+    public Product setProductRequest(ProductRequest productRequest, Categories category) {
+        this.id = productRequest.getId();
+        this.category = category;
+        this.brand = productRequest.getBrand();
+        this.model = productRequest.getModel();
+        this.description = productRequest.getDescription();
+        this.price = productRequest.getPrice();
+        this.quantity = productRequest.getQuantity();
+        return this;
+    }
+
     public Integer getId() {
         return id;
     }
