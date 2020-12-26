@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -21,12 +20,12 @@ public class CategoriesController {
 
     @PostMapping(path = "/categories")
     public @ResponseBody Categories addCategory(@RequestBody Categories category){
-        category.setId(nextSequenceService.getNextSequence("database_sequences"));
+        category.setId(nextSequenceService.getNextSequence(Categories.SEQUENCE_NAME));
         return categoriesRepository.save(category);
     }
 
     @PutMapping(path = "/categories/{id}")
-    public @ResponseBody Categories updateCategory(@PathVariable Integer id, @Valid @RequestBody Categories categoryDto){
+    public @ResponseBody Categories updateCategory(@PathVariable Integer id, @RequestBody Categories categoryDto){
         Optional<Categories> categoryToUpdate = categoriesRepository.findById(id);
         if(categoryToUpdate.isPresent())
             categoryToUpdate.get().setName(categoryDto.getName());

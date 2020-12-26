@@ -18,6 +18,7 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
+
     @Autowired
     CategoriesRepository categoriesRepository;
 
@@ -31,7 +32,7 @@ public class ProductController {
         if(categoriesRepository.existsById(productrequest.getCategory()))
         {
             Categories categories= categoriesRepository.findById(productrequest.getCategory()).get();
-            productrequest.setId(nextSequenceService.getNextSequence("database_sequences"));
+            productrequest.setId(nextSequenceService.getNextSequence(Product.SEQUENCE_NAME));
             Product product = new Product().setProductRequest(productrequest, categories);
             return productRepository.save(product);
         }
