@@ -16,6 +16,7 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
     CategoriesRepository categoriesRepository;
 
     //POST /products
