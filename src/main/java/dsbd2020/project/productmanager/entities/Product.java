@@ -1,6 +1,7 @@
 package dsbd2020.project.productmanager.entities;
 
 
+import dsbd2020.project.productmanager.support.ProductRequest;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;

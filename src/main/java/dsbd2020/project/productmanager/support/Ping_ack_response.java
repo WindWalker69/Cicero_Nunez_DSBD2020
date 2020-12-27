@@ -1,4 +1,4 @@
-package dsbd2020.project.productmanager.entities;
+package dsbd2020.project.productmanager.support;
 
 public class Ping_ack_response {
     

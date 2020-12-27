@@ -1,4 +1,4 @@
-package dsbd2020.project.productmanager.entities;
+package dsbd2020.project.productmanager.support;
 
 import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotNull;
