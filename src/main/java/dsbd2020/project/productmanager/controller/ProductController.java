@@ -3,6 +3,7 @@ package dsbd2020.project.productmanager.controller;
 import dsbd2020.project.productmanager.data.CategoriesRepository;
 import dsbd2020.project.productmanager.data.ProductRepository;
 import dsbd2020.project.productmanager.entities.Categories;
+import dsbd2020.project.productmanager.entities.Ping_ack_response;
 import dsbd2020.project.productmanager.entities.Product;
 import dsbd2020.project.productmanager.entities.ProductRequest;
 import dsbd2020.project.productmanager.support.NextSequenceService;
@@ -65,6 +66,13 @@ public class ProductController {
     public @ResponseBody
     Iterable<Product> getAll() {
         return productRepository.findAll();
+    }
+
+
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public @ResponseBody Ping_ack_response getPing_ack(){
+        Ping_ack_response ping_ack_response = new Ping_ack_response().setDbStatus("up").setServiceStatus("up");
+        return ping_ack_response;
     }
 
 }
