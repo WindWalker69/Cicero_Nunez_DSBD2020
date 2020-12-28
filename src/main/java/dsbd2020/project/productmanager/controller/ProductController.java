@@ -8,11 +8,16 @@ import dsbd2020.project.productmanager.entities.Product;
 import dsbd2020.project.productmanager.support.ProductRequest;
 import dsbd2020.project.productmanager.support.NextSequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ProductController {
@@ -63,9 +68,36 @@ public class ProductController {
 
     //GET /products/
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public @ResponseBody
-    Iterable<Product> getAll() {
-        return productRepository.findAll();
+    public @ResponseBody ResponseEntity<Map<String,Object>> getAllProduct(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer per_page) {
+
+        try{
+            if(per_page <= 0 || page <= 0)
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+
+            int first_id = per_page * (page - 1);
+            List<Integer> ids = new ArrayList<>();
+            for(int i = 0; i <= per_page; i++)
+                ids.add(first_id + i);
+
+            List<Product> products = new ArrayList<>((Collection<? extends Product>) productRepository.findAllById(ids));
+
+            if(products.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            Pageable paging = PageRequest.of(page, per_page);
+            Page<Product> pageProduct = productRepository.findAll(paging);
+
+            Map<String,Object> response = new HashMap<>();
+            response.put("products", products);
+            response.put("currentPage", pageProduct.getNumber());
+            response.put("totalProducts", pageProduct.getTotalElements());
+            response.put("totalPages", pageProduct.getTotalPages());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
