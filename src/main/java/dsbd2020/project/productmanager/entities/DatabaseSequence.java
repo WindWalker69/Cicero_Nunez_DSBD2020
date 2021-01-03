@@ -1,4 +1,4 @@
-package dsbd2020.project.productmanager.support;
+package dsbd2020.project.productmanager.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

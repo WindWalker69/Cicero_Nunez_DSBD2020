@@ -1,5 +1,6 @@
-package dsbd2020.project.productmanager.support;
+package dsbd2020.project.productmanager.service;
 
+import dsbd2020.project.productmanager.entities.DatabaseSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;

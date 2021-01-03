@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ProductRepository extends MongoRepository<Product, Integer>, PagingAndSortingRepository<Product, Integer> {
+    Product findByModel(String productModel);
 }

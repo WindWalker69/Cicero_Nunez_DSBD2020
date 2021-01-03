@@ -20,11 +20,9 @@ services:
     volumes:
       - mymongodb:/data/db
 
-
-
   productmanager:
     build:
-      context: .
+      context: . #productmanager
       dockerfile: Dockerfile
     ports:
       - "3333:3333"
