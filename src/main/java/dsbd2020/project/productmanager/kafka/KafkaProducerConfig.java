@@ -18,8 +18,16 @@ class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("orderupdates")
+    @Value("${kafkaTopicNotifications}")
+    private String topicnotification;
+
+    @Value("${kafkaTopicLogging}")
+    private String topicLogging;
+
+    @Value("${kafkaTopicOrders}")
     private String topicOrder;
+
+
 
     // Bean di creazione di una mappa con i parametri di configurazione per il client kafka
     @Bean
@@ -35,7 +43,7 @@ class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactoryProducer() {
+    public ProducerFactory<String, String> producerFactory() {
         // implementation for a singleton shared Producer instance.
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
@@ -43,17 +51,26 @@ class KafkaProducerConfig {
     // KafkaTemplate fornisce le utility per inviare messaggi a kafka
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactoryProducer());
+        return new KafkaTemplate<>(producerFactory());
     }
 
     // Bean che crea automaticamente il topic in kafka se non esiste
     // Possiamo creare un bean per ogni topic da creare
+
     @Bean
     public NewTopic topic1() {
         return TopicBuilder.name(topicOrder).build();
     }
 
+    @Bean
+    public NewTopic topic2() {
+        return TopicBuilder.name(topicLogging).build();
+    }
 
+    @Bean
+    public NewTopic topic3() {
+        return TopicBuilder.name(topicnotification).build();
+    }
 
 }
 

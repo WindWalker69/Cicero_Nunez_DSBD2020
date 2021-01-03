@@ -16,7 +16,7 @@ class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${kafkaTopicConsumer}")
+    @Value("${kafkaTopicOrders}")
     private String topicName;
 
     @Value("${kafkaGroup}")

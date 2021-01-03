@@ -24,7 +24,7 @@ public class KafkaOrder {
 
     @Autowired
     ProductRepository repository;
-    Integer status_code;
+
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -35,15 +35,18 @@ public class KafkaOrder {
 
     @KafkaListener(topics = "orderupdates", groupId = "order-consumer")
     public void listenProductTopic(String message) {
-        ProductUpdateRequest updateRequest = null;
-        TopicOrderCompleted order_request;
         if (message != null) {
-            order_request = new Gson().fromJson(message, TopicOrderCompleted.class);
-
+            int status_code = 0;
+            ProductUpdateRequest updateRequest = null;
+            TopicOrderCompleted order_request = new Gson().fromJson(message, TopicOrderCompleted.class);
+            sendMessage(new Gson().toJson(order_request), "orderupdates");
+            sendMessage(new Gson().toJson(order_request.getKey()), "orderupdates");
             Map<Integer, Integer> extraArgs = new HashMap<>();
             if (order_request.getKey() == "order_completed") {
+                sendMessage(new Gson().toJson(order_request), "orderupdates");
+
                 updateRequest = order_request.getValue();
-                Integer quantityavailable = 0;
+                int quantityavailable = 0;
                 double totalorder = 0;
                 //definire una map per gli ordini che non possono essere aggiunti.
                 for (Map.Entry<Integer, Integer> entry : updateRequest.getProducts().entrySet()) {
@@ -59,6 +62,9 @@ public class KafkaOrder {
                         totalorder += (entry.getValue() * p.getPrice());
                     }
                 }
+
+                sendMessage(new Gson().toJson( totalorder), "orderupdates");
+                sendMessage(new Gson().toJson( quantityavailable), "orderupdates");
 
 
                 if (totalorder == updateRequest.getTotal() && quantityavailable == 0) {
@@ -89,7 +95,7 @@ public class KafkaOrder {
 
                     }
                 }
-
+                sendMessage(new Gson().toJson(status_code), "orderupdates");
 
 
                 //order validation
@@ -112,6 +118,9 @@ public class KafkaOrder {
                 if (status_code == -2 || status_code == -3) {
                     sendMessage(new Gson().toJson(orderValidation), "logging");
                 }
+            }else {
+                sendMessage(new Gson().toJson("errore."), "orderupdates");
+
             }
        }
     }
