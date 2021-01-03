@@ -48,6 +48,14 @@ public class ProductController {
         kafkaTemplate.send(topicName, msg);
     }
 
+
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public @ResponseBody Ping_ack_response getPing_ack(){
+        Ping_ack_response ping_ack_response = new Ping_ack_response().setDbStatus("up").setServiceStatus("up");
+        return ping_ack_response;
+    }
+
+
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public @ResponseBody TopicOrderCompleted productUpdateRequest(@RequestBody TopicOrderCompleted productrequest) {
         sendMessage(new Gson().toJson(productrequest), "orderupdates");
