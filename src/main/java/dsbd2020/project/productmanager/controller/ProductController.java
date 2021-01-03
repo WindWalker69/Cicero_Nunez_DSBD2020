@@ -1,18 +1,18 @@
 package dsbd2020.project.productmanager.controller;
 
+import com.google.gson.Gson;
 import dsbd2020.project.productmanager.data.CategoriesRepository;
 import dsbd2020.project.productmanager.data.ProductRepository;
 import dsbd2020.project.productmanager.entities.Categories;
-import dsbd2020.project.productmanager.support.Ping_ack_response;
+import dsbd2020.project.productmanager.support.*;
 import dsbd2020.project.productmanager.entities.Product;
-import dsbd2020.project.productmanager.support.ProductRequest;
-import dsbd2020.project.productmanager.support.NextSequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,4 +107,16 @@ public class ProductController {
         return ping_ack_response;
     }
 
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public void sendMessage(String msg, String topicName) {
+        kafkaTemplate.send(topicName, msg);
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public @ResponseBody TopicOrderCompleted productUpdateRequest( @RequestBody TopicOrderCompleted productrequest) {
+        sendMessage(new Gson().toJson(productrequest), "orderupdates");
+        return productrequest;
+    }
 }
