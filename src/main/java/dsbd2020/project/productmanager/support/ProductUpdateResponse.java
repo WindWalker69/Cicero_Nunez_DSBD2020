@@ -8,22 +8,11 @@ public class ProductUpdateResponse {
 
     //long unixTime;
     Integer status;
-    Integer userID;
+    Integer orderId;
     Map<Integer, Integer> extraArgs;
+    long timestamp;
 
-  /*  public ProductUpdateResponse() {
-        this.unixTime =  Instant.now();
-    }
 
-    public long getUnixTime() {
-        return unixTime;
-    }
-
-    public ProductUpdateResponse setUnixTime(long unixTime) {
-        this.unixTime = unixTime;
-        return this;
-    }
-*/
     public Integer getStatus() {
         return status;
     }
@@ -33,12 +22,12 @@ public class ProductUpdateResponse {
         return this;
     }
 
-    public Integer getUserID() {
-        return userID;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public ProductUpdateResponse setUserID(Integer userID) {
-        this.userID = userID;
+    public ProductUpdateResponse setOrderId(Integer orderId) {
+        this.orderId = orderId;
         return this;
     }
 
@@ -48,6 +37,15 @@ public class ProductUpdateResponse {
 
     public ProductUpdateResponse setExtraArgs(Map<Integer, Integer> extraArgs) {
         this.extraArgs = extraArgs;
+        return this;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public ProductUpdateResponse setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
         return this;
     }
 }

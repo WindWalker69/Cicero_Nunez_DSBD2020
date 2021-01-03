@@ -56,8 +56,6 @@ public class ProductController {
         kafkaTemplate.send(topicName, msg);
     }
 
-
-
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public @ResponseBody TopicOrderCompleted productUpdateRequest(@RequestBody TopicOrderCompleted productrequest) {
         sendMessage(new Gson().toJson(productrequest), "orderupdates");

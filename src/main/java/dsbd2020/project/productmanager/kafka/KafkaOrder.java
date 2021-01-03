@@ -14,7 +14,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -33,19 +32,14 @@ public class KafkaOrder {
         kafkaTemplate.send(topicName, msg);
     }
 
-    @KafkaListener(topics = "orderupdates", groupId = "order-consumer")
+    @KafkaListener(topics = "${kafkaTopicOrders}", groupId = "${kafkaGroup}")
     public void listenProductTopic(String message) {
         if (message != null) {
             int status_code = 0;
-            ProductUpdateRequest updateRequest = null;
             TopicOrderCompleted order_request = new Gson().fromJson(message, TopicOrderCompleted.class);
-            sendMessage(new Gson().toJson(order_request), "orderupdates");
-            sendMessage(new Gson().toJson(order_request.getKey()), "orderupdates");
+            ProductUpdateRequest updateRequest = order_request.getValue();
             Map<Integer, Integer> extraArgs = new HashMap<>();
-            if (order_request.getKey() == "order_completed") {
-                sendMessage(new Gson().toJson(order_request), "orderupdates");
-
-                updateRequest = order_request.getValue();
+            if (order_request.getKey().equals("order_completed")) {
                 int quantityavailable = 0;
                 double totalorder = 0;
                 //definire una map per gli ordini che non possono essere aggiunti.
@@ -60,12 +54,12 @@ public class KafkaOrder {
 
                         }
                         totalorder += (entry.getValue() * p.getPrice());
+                    }else {
+                      //prodotto non esiste
+                        extraArgs.put(entry.getKey(), entry.getValue());
+                        quantityavailable++;
                     }
                 }
-
-                sendMessage(new Gson().toJson( totalorder), "orderupdates");
-                sendMessage(new Gson().toJson( quantityavailable), "orderupdates");
-
 
                 if (totalorder == updateRequest.getTotal() && quantityavailable == 0) {
                     status_code = 0;
@@ -78,31 +72,27 @@ public class KafkaOrder {
                         }
                     }
                 } else {
-
-                    //Se lo status code e' -2 o -3, il messaggio va inviato anche sul topic logging
+                    //entrambe le verifiche non corrette
                     if (totalorder != updateRequest.getTotal() && quantityavailable != 0) {
-                        status_code = -3; // entrambe le verifiche sono fallite
-                        //return
-                    }
-                    if (quantityavailable > 0) {
-                        //qualche prodotto non è disponibile
-                        // aggiungere agli extraArgs una lista dei prodotti non disponibili extraArgs: { products: [ {id: q}, ... ]}
-                        status_code = -1;
-                    }
-                    if (totalorder != updateRequest.getTotal()) {
-                        //totale errato
-                        status_code = -2;
-
+                        status_code = -3;
+                    } else {
+                        if (quantityavailable > 0) {
+                            //qualche prodotto non è disponibile
+                            status_code = -1;
+                        }
+                        if (totalorder != updateRequest.getTotal()) {
+                            //totale errato
+                            status_code = -2;
+                        }
                     }
                 }
-                sendMessage(new Gson().toJson(status_code), "orderupdates");
+                sendMessage(new Gson().toJson(status_code+"."), "orderupdates");
 
-
-                //order validation
+                //Preparo la order validation da trasmettere sui topic
                 ProductUpdateResponse productupdateresponse = new ProductUpdateResponse().
                         setStatus(status_code).
-                        setUserID(updateRequest.getUserId());
-
+                        setOrderId(updateRequest.getOrderId()).
+                        setTimestamp(System.currentTimeMillis() / 1000L );
 
                 if (status_code == -1) {
                     productupdateresponse.setExtraArgs(extraArgs);
@@ -114,13 +104,10 @@ public class KafkaOrder {
                 //produce il messaggio sui topic orders e notifications
                 sendMessage(new Gson().toJson(orderValidation), "orderupdates");
                 sendMessage(new Gson().toJson(orderValidation), "pushnotifications");
-                //se -2 e -3 mandare pure su topic logging
+                //Se lo status code e' -2 o -3, il messaggio va inviato anche sul topic logging
                 if (status_code == -2 || status_code == -3) {
                     sendMessage(new Gson().toJson(orderValidation), "logging");
                 }
-            }else {
-                sendMessage(new Gson().toJson("errore."), "orderupdates");
-
             }
        }
     }
