@@ -86,7 +86,6 @@ public class KafkaOrder {
                         }
                     }
                 }
-                sendMessage(new Gson().toJson(status_code+"."), "orderupdates");
 
                 //Preparo la order validation da trasmettere sui topic
                 ProductUpdateResponse productupdateresponse = new ProductUpdateResponse().
