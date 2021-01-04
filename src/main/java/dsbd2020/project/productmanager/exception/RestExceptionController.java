@@ -34,8 +34,10 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${kafkaTopicLogging}")
-    String topicName;
+    private String topicName;
 
+    @Value("${spring.application.name}")
+    private String serviceName;
 
     public void sendMessage(String msg, String topicName) {
         kafkaTemplate.send(topicName, msg);
@@ -125,7 +127,7 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
         HttpErrorMessageValue httpErrorMessageValue = new HttpErrorMessageValue()
                 .setTimestamp(System.currentTimeMillis() / 1000L)
                 .setSourceIp(sourceIp)
-                .setService("productmanager")
+                .setService(serviceName)
                 .setRequest(request)
                 .setError(error);
 
