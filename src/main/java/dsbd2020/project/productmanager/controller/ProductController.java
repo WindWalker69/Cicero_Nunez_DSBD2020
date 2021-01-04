@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -19,7 +20,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(path = "/products")
-    public @ResponseBody Product addProduct(@RequestBody ProductRequest product){
+    public @ResponseBody Product addProduct(@Valid @RequestBody ProductRequest product){
         return productService.addProduct(product);
     }
 

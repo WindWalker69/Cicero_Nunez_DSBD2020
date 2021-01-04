@@ -12,13 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-
 
 @ControllerAdvice
 public class RestExceptionController extends ResponseEntityExceptionHandler {
@@ -38,12 +37,11 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {
             ProductNotFoundException.class, CategoryNotFoundException.class, NoDataFoundException.class })
     protected ResponseEntity<Object> objectNotFoundExceptionHandler(
-            RuntimeException ex, HttpServletRequest requestHTTP){
+            RuntimeException ex, WebRequest request, HttpServletRequest requestHTTP){
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", System.currentTimeMillis() / 1000L);
         body.put("message", ex.getMessage());
-
 
         HttpErrorMessageValue httpErrorMessageValue = new HttpErrorMessageValue()
                 .setTimestamp(System.currentTimeMillis() / 1000L)
@@ -64,7 +62,7 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {
             WrongRequestParameterException.class, WrongRequestBodyException.class })
     protected ResponseEntity<Object> badRequestExceptionHandler(
-            RuntimeException ex,  HttpServletRequest requestHTTP){
+            RuntimeException ex, WebRequest request, HttpServletRequest requestHTTP){
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", System.currentTimeMillis() / 1000L);
@@ -76,7 +74,6 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
                 .setService("productmanager")
                 .setRequest(requestHTTP.getRequestURL()+requestHTTP.getMethod())
                 .setError(String.valueOf((Response.SC_BAD_REQUEST)));
-
 
         HttpErrorMessage httpErrorMessage = new HttpErrorMessage()
                 .setKey("http_errors")

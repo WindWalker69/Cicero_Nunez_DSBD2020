@@ -9,6 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -17,18 +18,8 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
-    @Value("${kafkaTopicLogging}")
-    private String topicName;
-
-    public void sendMessage(String msg){
-        kafkaTemplate.send(topicName, msg);
-    }
-
     @PostMapping(path = "/categories")
-    public @ResponseBody Category addCategory(@RequestBody Category category){
+    public @ResponseBody Category addCategory(@Valid @RequestBody Category category){
         return categoryService.addCategory(category);
     }
 
