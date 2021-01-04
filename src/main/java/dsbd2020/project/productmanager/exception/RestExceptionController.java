@@ -49,7 +49,7 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
                 .setTimestamp(System.currentTimeMillis() / 1000L)
                 .setSourceIp(requestHTTP.getRemoteAddr())
                 .setService("productmanager")
-                .setRequest(requestHTTP.getRequestURL()+requestHTTP.getMethod())
+                .setRequest(requestHTTP.getRequestURL()+" "+requestHTTP.getMethod())
                 .setError(String.valueOf((Response.SC_NOT_FOUND)));
 
         HttpErrorMessage httpErrorMessage = new HttpErrorMessage()
