@@ -3,9 +3,7 @@ package dsbd2020.project.productmanager.controller;
 import dsbd2020.project.productmanager.entities.Category;
 import dsbd2020.project.productmanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
