@@ -3,16 +3,16 @@ package dsbd2020.project.productmanager.messageKafka;
 import java.io.Serializable;
 
 public class HttpErrorMessageValue implements Serializable {
-    private String timestamp;
+    private long timestamp;
     private String sourceIp;
     private String service;
     private String request;
     private String error;
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
-    public HttpErrorMessageValue setTimestamp(String timestamp) {
+    public HttpErrorMessageValue setTimestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }

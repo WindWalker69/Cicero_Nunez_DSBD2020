@@ -47,14 +47,6 @@ public class CategoryController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer per_page){
 
-        /*HttpErrorMessage errMsg = new HttpErrorMessage()
-                .setTimestamp("ciao")
-                .setSourceIp("ciao")
-                .setService("ciao")
-                .setRequest("ciao")
-                .setError("ciao");
-        sendMessage(new Gson().toJson(errMsg));*/
-
         return categoryService.getAllCategories(page, per_page);
     }
 }
