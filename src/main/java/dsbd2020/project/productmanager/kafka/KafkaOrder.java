@@ -3,11 +3,11 @@ package dsbd2020.project.productmanager.kafka;
 import com.google.gson.Gson;
 import dsbd2020.project.productmanager.data.ProductRepository;
 import dsbd2020.project.productmanager.entities.Product;
-import dsbd2020.project.productmanager.support.TopicOrderCompleted;
-import dsbd2020.project.productmanager.support.ProductUpdateRequest;
-import dsbd2020.project.productmanager.support.ProductUpdateResponse;
+import dsbd2020.project.productmanager.messageKafka.TopicOrderCompleted;
+import dsbd2020.project.productmanager.messageKafka.ProductUpdateRequest;
+import dsbd2020.project.productmanager.messageKafka.ProductUpdateResponse;
 
-import dsbd2020.project.productmanager.support.TopicOrderValidation;
+import dsbd2020.project.productmanager.messageKafka.TopicOrderValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.kafka.annotation.KafkaListener;

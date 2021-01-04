@@ -1,8 +1,8 @@
-package dsbd2020.project.productmanager.message;
+package dsbd2020.project.productmanager.messageKafka;
 
 import java.io.Serializable;
 
-public class HttpErrorMessage implements Serializable {
+public class HttpErrorMessageValue implements Serializable {
     private String timestamp;
     private String sourceIp;
     private String service;
@@ -12,7 +12,7 @@ public class HttpErrorMessage implements Serializable {
     public String getTimestamp() {
         return timestamp;
     }
-    public HttpErrorMessage setTimestamp(String timestamp) {
+    public HttpErrorMessageValue setTimestamp(String timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -20,7 +20,7 @@ public class HttpErrorMessage implements Serializable {
     public String getSourceIp() {
         return sourceIp;
     }
-    public HttpErrorMessage setSourceIp(String sourceIp) {
+    public HttpErrorMessageValue setSourceIp(String sourceIp) {
         this.sourceIp = sourceIp;
         return this;
     }
@@ -28,7 +28,7 @@ public class HttpErrorMessage implements Serializable {
     public String getService() {
         return service;
     }
-    public HttpErrorMessage setService(String service) {
+    public HttpErrorMessageValue setService(String service) {
         this.service = service;
         return this;
     }
@@ -36,7 +36,7 @@ public class HttpErrorMessage implements Serializable {
     public String getRequest() {
         return request;
     }
-    public HttpErrorMessage setRequest(String request) {
+    public HttpErrorMessageValue setRequest(String request) {
         this.request = request;
         return this;
     }
@@ -44,7 +44,7 @@ public class HttpErrorMessage implements Serializable {
     public String getError() {
         return error;
     }
-    public HttpErrorMessage setError(String error) {
+    public HttpErrorMessageValue setError(String error) {
         this.error = error;
         return this;
     }

@@ -3,7 +3,7 @@ package dsbd2020.project.productmanager.controller;
 import com.google.gson.Gson;
 import dsbd2020.project.productmanager.entities.Product;
 import dsbd2020.project.productmanager.service.ProductService;
-import dsbd2020.project.productmanager.support.TopicOrderCompleted;
+import dsbd2020.project.productmanager.messageKafka.TopicOrderCompleted;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;

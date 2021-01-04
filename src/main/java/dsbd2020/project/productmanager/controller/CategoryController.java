@@ -1,8 +1,6 @@
 package dsbd2020.project.productmanager.controller;
 
-import com.google.gson.Gson;
 import dsbd2020.project.productmanager.entities.Category;
-import dsbd2020.project.productmanager.message.HttpErrorMessage;
 import dsbd2020.project.productmanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

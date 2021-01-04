@@ -1,4 +1,4 @@
-package dsbd2020.project.productmanager.support;
+package dsbd2020.project.productmanager.messageKafka;
 
 public class TopicOrderValidation {
 

@@ -1,4 +1,4 @@
-package dsbd2020.project.productmanager.support;
+package dsbd2020.project.productmanager.messageKafka;
 
 import java.io.Serializable;
 import java.util.Map;
