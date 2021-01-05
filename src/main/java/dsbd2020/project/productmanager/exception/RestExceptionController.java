@@ -99,8 +99,8 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
         ResponseEntity<Object> responseEntity;
 
         String sourceIp = httpRequest.getRemoteAddr();
-        String request = httpRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)
-                + " " + httpRequest.getMethod();
+        String request = httpRequest.getMethod() + " " +
+                httpRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         String error;
 
         Map<String, Object> body = new LinkedHashMap<>();
