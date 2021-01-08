@@ -46,11 +46,6 @@ public class CategoryService {
                 if(categoryRepository.findByCategory(categoryDto.getCategory()) != null)
                         throw new WrongRequestBodyException("Category name already exists");
 
-                /*Iterable<Category> categories = categoryRepository.findAll();
-                for (Category c : categories)
-                    if (c.getCategory().equalsIgnoreCase(categoryDto.getCategory()))
-                        throw new WrongRequestBodyException("Category name already exists");*/
-
                 categoryToUpdate.get().setCategory(categoryDto.getCategory());
                 return categoryRepository.save(categoryToUpdate.get());
             }
@@ -90,6 +85,5 @@ public class CategoryService {
         response.put("totalCategories", pageCategories.getTotalElements());
         response.put("totalPages", pageCategories.getTotalPages());
         return new ResponseEntity<>(response, HttpStatus.OK);
-        //return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
