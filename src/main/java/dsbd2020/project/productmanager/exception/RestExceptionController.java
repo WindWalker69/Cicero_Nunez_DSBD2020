@@ -43,55 +43,6 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
         kafkaTemplate.send(topicName, msg);
     }
 
-    /*@ExceptionHandler(value = {
-            ProductNotFoundException.class, CategoryNotFoundException.class, NoDataFoundException.class })
-    protected ResponseEntity<Object> objectNotFoundExceptionHandler(
-            RuntimeException ex, WebRequest request, HttpServletRequest requestHTTP){
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", System.currentTimeMillis() / 1000L);
-        body.put("message", ex.getMessage());
-
-        HttpErrorMessageValue httpErrorMessageValue = new HttpErrorMessageValue()
-                .setTimestamp(System.currentTimeMillis() / 1000L)
-                .setSourceIp(requestHTTP.getRemoteAddr())
-                .setService("productmanager")
-                .setRequest(requestHTTP.getRequestURL()+" "+requestHTTP.getMethod())
-                .setError(String.valueOf((Response.SC_NOT_FOUND)));
-
-        HttpErrorMessage httpErrorMessage = new HttpErrorMessage()
-                .setKey("http_errors")
-                .setValue(httpErrorMessageValue);
-
-        sendMessage(new Gson().toJson(httpErrorMessage), topicName);
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = {
-            WrongRequestParameterException.class, WrongRequestBodyException.class })
-    protected ResponseEntity<Object> badRequestExceptionHandler(
-            RuntimeException ex, WebRequest request, HttpServletRequest requestHTTP){
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", System.currentTimeMillis() / 1000L);
-        body.put("message", ex.getMessage());
-
-        HttpErrorMessageValue httpErrorMessageValue = new HttpErrorMessageValue()
-                .setTimestamp(System.currentTimeMillis() / 1000L)
-                .setSourceIp(requestHTTP.getRemoteAddr())
-                .setService("productmanager")
-                .setRequest(requestHTTP.getRequestURL()+requestHTTP.getMethod())
-                .setError(String.valueOf((Response.SC_BAD_REQUEST)));
-
-        HttpErrorMessage httpErrorMessage = new HttpErrorMessage()
-                .setKey("http_errors")
-                .setValue(httpErrorMessageValue);
-
-        sendMessage(new Gson().toJson(httpErrorMessage), topicName);
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }*/
-
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> exceptionHandler(
             Exception ex, WebRequest webRequest, HttpServletRequest httpRequest){
@@ -120,7 +71,7 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
             responseEntity = new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
         }
         else {
-            error = ExceptionUtils.getStackTrace(ex); //ex.getStackTrace().toString(); //String.valueOf(Response.SC_INTERNAL_SERVER_ERROR);
+            error = ExceptionUtils.getStackTrace(ex);
             responseEntity = new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -140,7 +91,7 @@ public class RestExceptionController extends ResponseEntityExceptionHandler {
         return responseEntity;
     }
 
-    @Override //Override obbligatorio se si usa @Valid
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers,
