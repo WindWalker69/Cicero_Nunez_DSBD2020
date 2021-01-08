@@ -5,6 +5,7 @@ import dsbd2020.project.productmanager.entities.Product;
 import dsbd2020.project.productmanager.service.ProductService;
 import dsbd2020.project.productmanager.messageKafka.TopicOrderCompleted;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
@@ -53,13 +54,15 @@ public class ProductController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    @Value("${kafkaTopicOrders}")
+    String topicOrder;
     public void sendMessage(String msg, String topicName) {
         kafkaTemplate.send(topicName, msg);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public @ResponseBody TopicOrderCompleted productUpdateRequest(@RequestBody TopicOrderCompleted productrequest) {
-        sendMessage(new Gson().toJson(productrequest), "orderupdates");
+        sendMessage(new Gson().toJson(productrequest), topicOrder);
         return productrequest;
     }
 }

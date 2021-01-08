@@ -10,6 +10,7 @@ import dsbd2020.project.productmanager.messageKafka.ProductUpdateResponse;
 import dsbd2020.project.productmanager.messageKafka.TopicOrderValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,14 @@ public class KafkaOrder {
     @Autowired
     ProductRepository repository;
 
+    @Value("${kafkaTopicNotifications}")
+    private String topicnotification;
+
+    @Value("${kafkaTopicLogging}")
+    private String topicLogging;
+
+    @Value("${kafkaTopicOrders}")
+    private String topicOrder;
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -101,11 +110,11 @@ public class KafkaOrder {
                     .setKey("order_validation")
                     .setValue(productupdateresponse);
                 //produce il messaggio sui topic orders e notifications
-                sendMessage(new Gson().toJson(orderValidation), "orderupdates");
-                sendMessage(new Gson().toJson(orderValidation), "pushnotifications");
+                sendMessage(new Gson().toJson(orderValidation), topicOrder);
+                sendMessage(new Gson().toJson(orderValidation), topicnotification);
                 //Se lo status code e' -2 o -3, il messaggio va inviato anche sul topic logging
                 if (status_code == -2 || status_code == -3) {
-                    sendMessage(new Gson().toJson(orderValidation), "logging");
+                    sendMessage(new Gson().toJson(orderValidation), topicLogging);
                 }
             }
        }

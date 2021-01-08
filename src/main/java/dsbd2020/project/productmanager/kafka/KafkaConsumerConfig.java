@@ -31,9 +31,9 @@ class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG,
                 consumerGroup);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class); // Classe di serializzazione da utilizzare per serializzare la chiave
+                StringDeserializer.class); // Classe di serializzazione da utilizzare per deserializzare la chiave
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class); // Classe di serializzazione da utilizzare per serializzare i valori
+                StringDeserializer.class); // Classe di serializzazione da utilizzare per deserializzare i valori
         return props;
     }
 

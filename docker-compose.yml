@@ -47,7 +47,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ADVERTISED_PORT: 9092
       BROKER_ID_COMMAND: "hostname | cut -d'-' -f2"
-      KAFKA_CREATE_TOPICS: "logging:20:1,pushnotifications:10:1,orderupdates:10:1"
+      KAFKA_CREATE_TOPICS: "logging:1:1,notifications:1:1,orders:1:1"
       KAFKA_LISTENERS: "PLAINTEXT://:9092"
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeper:2181
