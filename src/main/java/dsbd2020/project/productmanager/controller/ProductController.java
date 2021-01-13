@@ -50,19 +50,4 @@ public class ProductController {
         Ping_ack_response ping_ack_response = new Ping_ack_response().setDbStatus("up").setServiceStatus("up");
         return ping_ack_response;
     }
-
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
-    @Value("${kafkaTopicOrders}")
-    String topicOrder;
-    public void sendMessage(String msg, String topicName) {
-        kafkaTemplate.send(topicName, msg);
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public @ResponseBody TopicOrderCompleted productUpdateRequest(@RequestBody TopicOrderCompleted productrequest) {
-        sendMessage(new Gson().toJson(productrequest), topicOrder);
-        return productrequest;
-    }
 }
